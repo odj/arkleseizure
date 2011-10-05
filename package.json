@@ -1,0 +1,11 @@
+{   "name" : "arkleseizure",
+    "version" : "0.0.1",
+    "description" : "node.js bindings to openbabel"
+    "author": "Orion Jankowski <orion10@gmail.com>"
+    "main": "./arkleseizure.js",
+    "repository": {
+        "type": "git",
+        "url": ""
+    },
+    "scripts": { "install": "node-waf configure clean build" }
+}
