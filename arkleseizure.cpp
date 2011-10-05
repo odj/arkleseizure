@@ -48,7 +48,6 @@ public:
     static Handle<Value> SetInFormat(const Arguments &args) {
         HandleScope scope;
         Arkleseizure *ark = ObjectWrap::Unwrap<Arkleseizure>(args.This());
-        ark->Ref();
         if (args.Length() == 0 ||
             !args[0]->IsString()) {
             return Undefined();
@@ -61,7 +60,6 @@ public:
     static Handle<Value> SetOutFormat(const Arguments &args) {
         HandleScope scope;
         Arkleseizure *ark = ObjectWrap::Unwrap<Arkleseizure>(args.This());
-        ark->Ref();
         if (args.Length() == 0 ||
             !args[0]->IsString()) {
             return Undefined();
@@ -74,7 +72,6 @@ public:
     static Handle<Value> Convert(const Arguments &args) {
         HandleScope scope;
         Arkleseizure *ark = ObjectWrap::Unwrap<Arkleseizure>(args.This());
-        ark->Ref();
 
         if (args.Length() == 0 ||
             !args[0]->IsString()) {
