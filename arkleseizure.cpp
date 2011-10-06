@@ -10,7 +10,8 @@ using namespace node;
 using namespace OpenBabel;
 
 class Arkleseizure : public ObjectWrap {
-    static Persistent<FunctionTemplate> constructor_template;
+    static Persistent<FunctionTemplate> converter_template;
+    static Persistent<FunctionTemplate> mol_template;
     OBConversion conversion;
 
 
@@ -25,18 +26,25 @@ public:
         HandleScope scope;
 
         Local<FunctionTemplate> t = FunctionTemplate::New(New);
-        constructor_template = Persistent<FunctionTemplate>::New(t);
-        constructor_template->InstanceTemplate()->SetInternalFieldCount(1);
-        constructor_template->SetClassName(String::NewSymbol("Arkleseizure"));
+        converter_template = Persistent<FunctionTemplate>::New(t);
+        converter_template->InstanceTemplate()->SetInternalFieldCount(1);
+        converter_template->SetClassName(String::NewSymbol("OBConvert"));
 
         target->Set(String::New("version"), String::New("0.0.1"));
-        NODE_SET_PROTOTYPE_METHOD(constructor_template, "SetInFormat", SetInFormat);
-        NODE_SET_PROTOTYPE_METHOD(constructor_template, "SetOutFormat", SetOutFormat);
-        NODE_SET_PROTOTYPE_METHOD(constructor_template, "GetOutFormat", GetOutFormat);
-        NODE_SET_PROTOTYPE_METHOD(constructor_template, "GetInFormat", GetInFormat);
-        NODE_SET_PROTOTYPE_METHOD(constructor_template, "Convert", Convert);
+        NODE_SET_PROTOTYPE_METHOD(converter_template, "SetInFormat", SetInFormat);
+        NODE_SET_PROTOTYPE_METHOD(converter_template, "SetOutFormat", SetOutFormat);
+        NODE_SET_PROTOTYPE_METHOD(converter_template, "GetOutFormat", GetOutFormat);
+        NODE_SET_PROTOTYPE_METHOD(converter_template, "GetInFormat", GetInFormat);
+        NODE_SET_PROTOTYPE_METHOD(converter_template, "Convert", Convert);
 
-        target->Set(String::NewSymbol("Arkleseizure"), constructor_template->GetFunction());
+        target->Set(String::NewSymbol("OBConvert"), converter_template->GetFunction());
+
+        Local<FunctionTemplate> m = FunctionTemplate::New(New);
+        mol_template = Persistent<FunctionTemplate>::New(m);
+        mol_template->InstanceTemplate()->SetInternalFieldCount(1);
+        mol_template->SetClassName(String::NewSymbol("OBMol"));
+        target->Set(String::NewSymbol("OBMol"), mol_template->GetFunction());
+
     }
 
     static Handle<Value> New(const Arguments &args) {
@@ -106,7 +114,8 @@ public:
 
 };
 
-Persistent<FunctionTemplate> Arkleseizure::constructor_template;
+Persistent<FunctionTemplate> Arkleseizure::converter_template;
+Persistent<FunctionTemplate> Arkleseizure::mol_template;
 
 extern "C" void
 init(Handle<Object> target)

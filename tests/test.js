@@ -1,6 +1,6 @@
-var Arkle = require('../arkleseizure').Arkleseizure;
-var a = new Arkle();
-var b = new Arkle();
+var Arkle = require('../arkleseizure');
+var a = new Arkle.OBConvert();
+var b = new Arkle.OBConvert();
 
 a.SetInFormat('smi');
 a.SetOutFormat('can');
