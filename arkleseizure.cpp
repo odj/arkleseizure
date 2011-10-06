@@ -32,6 +32,8 @@ public:
         target->Set(String::New("version"), String::New("0.0.1"));
         NODE_SET_PROTOTYPE_METHOD(constructor_template, "SetInFormat", SetInFormat);
         NODE_SET_PROTOTYPE_METHOD(constructor_template, "SetOutFormat", SetOutFormat);
+        NODE_SET_PROTOTYPE_METHOD(constructor_template, "GetOutFormat", GetOutFormat);
+        NODE_SET_PROTOTYPE_METHOD(constructor_template, "GetInFormat", GetInFormat);
         NODE_SET_PROTOTYPE_METHOD(constructor_template, "Convert", Convert);
 
         target->Set(String::NewSymbol("Arkleseizure"), constructor_template->GetFunction());
@@ -69,6 +71,23 @@ public:
         return Boolean::New(ark->conversion.SetOutFormat(*outputFormat));
     }
 
+     static Handle<Value> GetInFormat(const Arguments &args) {
+        HandleScope scope;
+        Arkleseizure *ark = ObjectWrap::Unwrap<Arkleseizure>(args.This());
+        OBFormat* inFormat = ark->conversion.GetInFormat();
+        return String::New(inFormat->GetID());
+    }
+
+     static Handle<Value> GetOutFormat(const Arguments &args) {
+        HandleScope scope;
+        Arkleseizure *ark = ObjectWrap::Unwrap<Arkleseizure>(args.This());
+        OBFormat* outFormat = ark->conversion.GetOutFormat();
+        return String::New(outFormat->GetID());
+    }
+
+
+       
+
     static Handle<Value> Convert(const Arguments &args) {
         HandleScope scope;
         Arkleseizure *ark = ObjectWrap::Unwrap<Arkleseizure>(args.This());
@@ -81,7 +100,7 @@ public:
         OBMol mol;
         String::AsciiValue inputString(args[0]->ToString());
         ark->conversion.ReadString(&mol, *inputString);
-        string outputString = ark->conversion.WriteString(&mol);
+        string outputString = ark->conversion.WriteString(&mol, true);
         return String::New(outputString.c_str());
     }
 
