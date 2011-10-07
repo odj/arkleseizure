@@ -1,1 +1,10 @@
 Node.js bindings to OpenBabel.  Why, because we think we can.
+
+To build:
+$ node-waf configure
+$ node-waf build
+
+To test:
+$ node ./tests/test.js
+
+Enjoy!
